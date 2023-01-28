@@ -18,6 +18,12 @@
 #include "Scripting/Python/Utils/object_wrapper.h"
 #include "Scripting/Python/PyScriptingBackend.h"
 
+#include "Core/Core.h"
+#include "Core/System.h"
+#include "Core/HW/ProcessorInterface.h"
+//#include "DolphinQt/MainWindow.h"
+#include "Core/Movie.h"
+
 namespace PyScripting
 {
 
@@ -311,6 +317,15 @@ static PyObject* Reset(PyObject* module)
   Py_RETURN_NONE;
 }
 
+static PyObject* SystemReset(PyObject* self)
+{
+  // Copy from DolphinQt/MainWindow.cpp: MainWindow::Reset()
+  if (Movie::IsRecordingInput())
+    Movie::SetReset(true);
+  ProcessorInterface::ResetButton_Tap();
+  Py_RETURN_NONE;
+}
+
 PyMODINIT_FUNC PyInit_event()
 {
   static PyMethodDef methods[] = {
@@ -321,6 +336,7 @@ PyMODINIT_FUNC PyInit_event()
       Py::MakeMethodDef<PyCodeBreakpointEvent::SetCallback>("on_codebreakpoint"),
       Py::MakeMethodDef<PyFrameDrawnEvent::SetCallback>("on_framedrawn"),
       Py::MakeMethodDef<Reset>("_dolphin_reset"),
+      Py::MakeMethodDef<SystemReset>("system_reset"),
 
       {nullptr, nullptr, 0, nullptr}  // Sentinel
   };
