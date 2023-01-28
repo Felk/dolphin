@@ -10,6 +10,8 @@
 
 #include "Common/Logging/Log.h"
 #include "Core/API/Events.h"
+#include "Core/HW/ProcessorInterface.h"
+#include "Core/Movie.h"
 
 #include "Scripting/Python/coroutine.h"
 #include "Scripting/Python/Utils/convert.h"
@@ -17,12 +19,6 @@
 #include "Scripting/Python/Utils/module.h"
 #include "Scripting/Python/Utils/object_wrapper.h"
 #include "Scripting/Python/PyScriptingBackend.h"
-
-#include "Core/Core.h"
-#include "Core/System.h"
-#include "Core/HW/ProcessorInterface.h"
-//#include "DolphinQt/MainWindow.h"
-#include "Core/Movie.h"
 
 namespace PyScripting
 {
