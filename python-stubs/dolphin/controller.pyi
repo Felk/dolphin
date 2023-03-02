@@ -4,9 +4,10 @@ Module for programmatic inputs.
 Currently, only for GameCube, Wiimote buttons and Wii IR (pointing).
 No acceleration or extensions data yet.
 """
-from typing import TypedDict
+from typing import TypedDict, type_check_only
 
 
+@type_check_only
 class GCInputs(TypedDict):
     Left: bool
     Right: bool
@@ -31,6 +32,7 @@ class GCInputs(TypedDict):
     Connected: bool
 
 
+@type_check_only
 class WiiInputs(TypedDict):
     Left: bool
     Right: bool
@@ -53,7 +55,7 @@ def get_gc_buttons(controller_id: int, /) -> GCInputs:
     """
 
 
-def set_gc_buttons(controller_id: int, inputs: GCInputs, /):
+def set_gc_buttons(controller_id: int, inputs: GCInputs, /) -> None:
     """
     Sets the current input map for the given GameCube controller.
     The override will hold for the current frame.
@@ -70,7 +72,7 @@ def get_wii_buttons(controller_id: int, /) -> WiiInputs:
     """
 
 
-def set_wii_buttons(controller_id: int, inputs: WiiInputs, /):
+def set_wii_buttons(controller_id: int, inputs: WiiInputs, /) -> None:
     """
     Sets the current input map for the given Wii controller.
     The override will hold for the current frame.
@@ -82,7 +84,7 @@ def set_wii_buttons(controller_id: int, inputs: WiiInputs, /):
 def set_wii_ircamera_transform(controller_id: int,
                                x: float, y: float, z: float = -2,
                                pitch: float = 0, yaw: float = 0,
-                               roll: float = 0, /):
+                               roll: float = 0, /) -> None:
     """
     Places the simulated IR camera at the specified location
     with the specified rotation relative to the sensor bar.

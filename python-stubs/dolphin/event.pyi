@@ -4,10 +4,11 @@ Module for awaiting or registering callbacks on all events emitted by Dolphin.
 The odd-looking Protocol classes are just a lot of syntax to essentially describe
 the callback's signature. See https://www.python.org/dev/peps/pep-0544/#callback-protocols
 """
-from typing import Callable, Optional, Protocol
+from typing import Protocol, type_check_only
+from collections.abc import Callable
 
 
-def on_frameadvance(callback: Optional[Callable[[], None]]):
+def on_frameadvance(callback: Callable[[], None] | None) -> None:
     """
     Registers a callback to be called every time the game has rendered a new frame.
     """
@@ -19,6 +20,7 @@ async def frameadvance() -> None:
     """
 
 
+@type_check_only
 class _MemorybreakpointCallback(Protocol):
     def __call__(self, is_write: bool, addr: int, value: int) -> None:
         """
@@ -30,7 +32,7 @@ class _MemorybreakpointCallback(Protocol):
         """
 
 
-def on_memorybreakpoint(callback: Optional[_MemorybreakpointCallback]):
+def on_memorybreakpoint(callback: _MemorybreakpointCallback | None) -> None:
     """
     Registers a callback to be called every time a previously added memory breakpoint is hit.
 
@@ -39,7 +41,7 @@ def on_memorybreakpoint(callback: Optional[_MemorybreakpointCallback]):
     """
 
 
-async def memorybreakpoint() -> (bool, int, int):
+async def memorybreakpoint() -> tuple[bool, int, int]:
     """
     Awaitable event that completes once a previously added memory breakpoint is hit.
     """
