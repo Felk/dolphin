@@ -205,7 +205,7 @@ static T ReadFromHardware(Core::System& system, Memory::MemoryManager& memory, u
     // Note that "word" means 32-bit, so paired singles or doubles might still be 32-bit aligned!
     u64 var = 0;
     for (u32 i = 0; i < sizeof(T); ++i)
-      var = (var << 8) | ReadFromHardware<flag, u8, TranslateCondition::Never>(system, memory, em_address + i);
+      var = (var << 8) | ReadFromHardware<flag, u8, translate_if>(system, memory, em_address + i);
     return static_cast<T>(var);
   }
 
