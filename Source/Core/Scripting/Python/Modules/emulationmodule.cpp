@@ -19,6 +19,24 @@ struct EmulationModuleState
   Core::System* system;
 };
 
+static PyObject* EmulationResume(PyObject* self)
+{
+  EmulationModuleState* state = Py::GetState<EmulationModuleState>(self);
+  if(Core::GetState(*state->system) == Core::State::Paused) {
+    Core::SetState(*state->system, Core::State::Running);
+  }
+  Py_RETURN_NONE;
+}
+
+static PyObject* EmulationPause(PyObject* self)
+{
+  EmulationModuleState* state = Py::GetState<EmulationModuleState>(self);
+  if(Core::GetState(*state->system) == Core::State::Running) {
+    Core::SetState(*state->system, Core::State::Paused);
+  }
+  Py_RETURN_NONE;
+}
+
 static PyObject* EmulationReset(PyObject* self)
 {
   EmulationModuleState* state = Py::GetState<EmulationModuleState>(self);
@@ -39,6 +57,8 @@ static void SetupEmulationModule(PyObject* module, EmulationModuleState* state)
 PyMODINIT_FUNC PyInit_emulation()
 {
   static PyMethodDef methods[] = {
+      Py::MakeMethodDef<EmulationResume>("resume"),
+      Py::MakeMethodDef<EmulationPause>("pause"),
       Py::MakeMethodDef<EmulationReset>("reset"),
 
       {nullptr, nullptr, 0, nullptr}  // Sentinel
