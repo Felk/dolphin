@@ -94,7 +94,7 @@ void Gui::DrawCircleFilled(const Vec2f center, float radius, u32 color, int num_
   GUI_DRAW_DEFERRED(AddCircleFilled(center, radius, ARGBToABGR(color), num_segments));
 }
 
-void Gui::DrawText(const Vec2f pos, u32 color, std::string text)
+void Gui::DrawText2(const Vec2f pos, u32 color, std::string text)
 {
   GUI_DRAW_DEFERRED(AddText(pos, ARGBToABGR(color), text.c_str()));
 }

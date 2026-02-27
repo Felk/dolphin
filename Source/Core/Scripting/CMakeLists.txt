@@ -30,7 +30,17 @@ add_library(scripting
   Python/Utils/object_wrapper.h
 )
 
-find_package(Python3 REQUIRED COMPONENTS Development)
+if(WIN32)
+  set(Python3_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/Externals/python/x64/include")
+  set(Python3_LIBRARIES 
+    "${CMAKE_SOURCE_DIR}/Externals/python/x64/libs/python3.lib"
+    "${CMAKE_SOURCE_DIR}/Externals/python/x64/libs/python3_d.lib"
+    "${CMAKE_SOURCE_DIR}/Externals/python/x64/libs/python312.lib"
+    "${CMAKE_SOURCE_DIR}/Externals/python/x64/libs/python312_d.lib"
+  )
+else()
+  find_package(Python3 REQUIRED COMPONENTS Development)
+endif()
 include_directories(${Python3_INCLUDE_DIRS})
 # TODO imgui shouldn't be here
 target_link_libraries(scripting PRIVATE ${Python3_LIBRARIES} imgui core)

@@ -1,0 +1,31 @@
+name: Build Win Dolphin
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          submodules: 'recursive'
+
+      - name: Build Dolphin
+        run: |
+          cmake -Bbuild . -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release -- /m
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v6
+        with:
+          name: DolphinWin
+          path: Binary
